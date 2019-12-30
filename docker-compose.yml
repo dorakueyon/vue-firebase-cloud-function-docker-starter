@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    main:
+        build: .
+        container_name: front
+        volumes:
+            - ./public:/work/public
+            - ./src:/work/src
+        ports:
+            - 8080:8080
+        tty: true
+        command: yarn serve
+
+    functions:
+        build:
+            context: ./
+            dockerfile:  ./functions/Dockerfile
+        container_name: functions
+        volumes:
+            - ./functions/lib:/work/functions/lib
+            - ./functions/src:/work/functions/src
+              #environment:
+              #    - GOOGLE_APPLICATION_CREDENTIALS=./credentials/firebase-adminsdk.json
+        ports:
+            - 5000:5000
+            - 9005:9005
+        tty: true
